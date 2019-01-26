@@ -19,7 +19,8 @@
 #'See description of \code{\link[rPref]{low}} for more details.
 #'@param pop_size Size of the population.
 #'@param max_gen Number of generations.
-#'@param model A \code{\link[mlr]{makeLearner}} object. A model to be used for classification task.
+#'@param model A \code{\link[mlr]{makeLearner}} object. A model to be used for
+#'classification task.
 #'@param resampling A \code{\link[mlr]{makeResampleDesc}} object.
 #'@param num_features TRUE if algorithm should minimise number of features as one of objectives.
 #'You must pass a respective object to pareto as well as obj_names.
@@ -30,7 +31,24 @@
 #'@param feature_cost A vector of feacure costs. Must be equal ncol(df)-1.
 #'You must pass a respective object to pareto as well as obj_names.
 #'@param cpus Number of sockets to be used for parallelisation. Default value is 1.
-#'@return A list with the final Pareto front: selected subsets and their respective fitness values.
+#'@return A list with the final Pareto Front:
+#'\describe{
+#' \item{Raw}{A list containing two items:
+#' \enumerate{
+#' \item A list with final Pareto Front individuals
+#' \item A data.frame containing respective fitness values
+#' }
+#' }
+#' \item{Per individual}{Same content, structured per individual}
+#' \item{Majority vote}{Pareto Front majority vote for dataset features}
+#' \item{Stat}{Runtime, dataset details, model}
+#' }
+#'@references K. Deb, H. Jain, "An evolutionary many-objective optimization algorithm
+#'using reference-point-based nondominated sorting approach part I: solving problems
+#'with box constraints", IEEE Trans. Evol. Comput., vol. 18, no. 4, pp. 577-601, 2014
+#'
+#'
+#'
 #'
 #'@export nsga3fs
 

@@ -27,7 +27,8 @@ See description of \code{\link[rPref]{low}} for more details.}
 
 \item{max_gen}{Number of generations.}
 
-\item{model}{A \code{\link[mlr]{makeLearner}} object. A model to be used for classification task.}
+\item{model}{A \code{\link[mlr]{makeLearner}} object. A model to be used for
+classification task.}
 
 \item{resampling}{A \code{\link[mlr]{makeResampleDesc}} object.}
 
@@ -46,7 +47,18 @@ You must pass a respective object to pareto as well as obj_names.}
 \item{cpus}{Number of sockets to be used for parallelisation. Default value is 1.}
 }
 \value{
-A list with the final Pareto front: selected subsets and their respective fitness values.
+A list with the final Pareto Front:
+\describe{
+\item{Raw}{A list containing two items:
+\enumerate{
+\item A list with final Pareto Front individuals
+\item A data.frame containing respective fitness values
+}
+}
+\item{Per individual}{Same content, structured per individual}
+\item{Majority vote}{Pareto Front majority vote for dataset features}
+\item{Stat}{Runtime, dataset details, model}
+}
 }
 \description{
 An adaptation of NSGA III for multi objective feature selection tasks.
@@ -55,4 +67,9 @@ optimisation problems simultaneously by applying a non-dominated sorting
 technique. It uses a reference points based selection operator to explore
 solution space and preserve diversity. See the paper by K. Deb and
 H. Jain (2013) for a detailed description of the algorithm.
+}
+\references{
+K. Deb, H. Jain, "An evolutionary many-objective optimization algorithm
+using reference-point-based nondominated sorting approach part I: solving problems
+with box constraints", IEEE Trans. Evol. Comput., vol. 18, no. 4, pp. 577-601, 2014
 }
