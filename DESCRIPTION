@@ -1,11 +1,21 @@
 Package: nsga3
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: An Implementation of Non-Dominated Sorting Genetic Algorithm III for Feature Selection
+Version: 0.0.0.9000
+Author: Artem Shramko
+Maintainer: Artem Shramko <art.shramko@gmail.com>
+Description: This package provides an adaptation of NSGA III for multi objective 
+    feature selection tasks. NSGA III is a genetic algorithm that solves multiple 
+    optimisation problems simultaneously by applying a non-dominated sorting 
+    technique. It uses a reference points based selection operator to explore 
+    solution space and preserve diversity. See the original paper by K. Deb and 
+    H. Jain (2013) for a detailed description. 
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
+Imports: 
+    mlr,
+    parallelMap,
+    rPref
+Suggests:
+    xgboost
