@@ -15,12 +15,12 @@
 #'@param obj_names A Vector of the names of objective functions.
 #'Must match the atguments passed to pareto.
 #'@param pareto A Pareto criteria for non-dominated sorting. Should be passed in a form:
-#'> \eqn{low(objective_1)*high(objective_2)}
-#'See description of rPref::low for more details.
+#'\eqn{low(objective_1)*high(objective_2)}
+#'See description of \code{\link[rPref]{low}} for more details.
 #'@param pop_size Size of the population.
 #'@param max_gen Number of generations.
-#'@param model A mlr::makeLearner object. A model to be used for classification task.
-#'@param resampling A mlr::makeResampleDesc object.
+#'@param model A \code{\link[mlr]{makeLearner}} object. A model to be used for classification task.
+#'@param resampling A \code{\link[mlr]{makeResampleDesc}} object.
 #'@param num_features TRUE if algorithm should minimise number of features as one of objectives.
 #'You must pass a respective object to pareto as well as obj_names.
 #'@param mutation_rate Probability of switching the value of a certain gene to its opposite.
@@ -688,7 +688,8 @@ nsga3fs <- function(df, target, obj_list, obj_names,
   colnames(evaluated_pop)<-obj_names
 
   eval_end <- Sys.time()
-  print(paste("- Time: ",as.numeric(difftime(eval_end,eval_start), units="mins"), "min"))
+  print(paste("- Initial evaluation time: ",
+              as.numeric(difftime(eval_end,eval_start), units="mins"), "min"))
 
   current_generation <- 0
 
@@ -706,7 +707,7 @@ nsga3fs <- function(df, target, obj_list, obj_names,
     rownames(evaluated_pop) <- 1:nrow(evaluated_pop)
 
     #crossover
-    children <- create_children(pop)
+    children <- create_children(sample(pop))
 
     #mutation
     mutated_children <- mutate_pop(children, mutation_rate)

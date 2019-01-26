@@ -20,16 +20,16 @@ Must be a list of objects of type closure.}
 Must match the atguments passed to pareto.}
 
 \item{pareto}{A Pareto criteria for non-dominated sorting. Should be passed in a form:
-> \eqn{low(objective_1)*high(objective_2)}
-See description of rPref::low for more details.}
+\eqn{low(objective_1)*high(objective_2)}
+See description of \code{\link[rPref]{low}} for more details.}
 
 \item{pop_size}{Size of the population.}
 
 \item{max_gen}{Number of generations.}
 
-\item{model}{A mlr::makeLearner object. A model to be used for classification task.}
+\item{model}{A \code{\link[mlr]{makeLearner}} object. A model to be used for classification task.}
 
-\item{resampling}{A mlr::makeResampleDesc object.}
+\item{resampling}{A \code{\link[mlr]{makeResampleDesc}} object.}
 
 \item{num_features}{TRUE if algorithm should minimise number of features as one of objectives.
 You must pass a respective object to pareto as well as obj_names.}
