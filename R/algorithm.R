@@ -3,7 +3,7 @@
 #'@description
 #'An adaptation of NSGA III for multi objective feature selection tasks.
 #'NSGA III is a genetic algorithm that solves multiple
-#'optimisation problems simultaneously by applying a non-dominated sorting
+#'optimization problems simultaneously by applying a non-dominated sorting
 #'technique. It uses a reference points based selection operator to explore
 #'solution space and preserve diversity. See the paper by K. Deb and
 #'H. Jain (2013) for a detailed description of the algorithm.
@@ -12,7 +12,7 @@
 #'
 #'@param df An original dataset.
 #'@param target Name of a column (a string), which contains classification target variable.
-#'@param obj_list A List of objective functions to be optimisied.
+#'@param obj_list A List of objective functions to be optimizied.
 #'Must be a list of objects of type closure.
 #'@param obj_names A Vector of the names of objective functions.
 #'Must match the atguments passed to pareto.
@@ -24,7 +24,7 @@
 #'@param model A \code{\link[mlr]{makeLearner}} object. A model to be used for
 #'classification task.
 #'@param resampling A \code{\link[mlr]{makeResampleDesc}} object.
-#'@param num_features TRUE if algorithm should minimise number of features as one of objectives.
+#'@param num_features TRUE if algorithm should minimize number of features as one of objectives.
 #'You must pass a respective object to pareto as well as obj_names.
 #'@param mutation_rate Probability of switching the value of a certain gene to its opposite.
 #'Default value 0.1.
@@ -32,6 +32,8 @@
 #'Default  value 0.5.
 #'@param feature_cost A vector of feacure costs. Must be equal ncol(df)-1.
 #'You must pass a respective object to pareto as well as obj_names.
+#'@param r_measures A list of performance metrics for \code{\link[mlr]{makeResampleDesc}} task.
+#'Default "mmce"
 #'@param cpus Number of sockets to be used for parallelisation. Default value is 1.
 #'@return A list with the final Pareto Front:
 #'\describe{
@@ -69,7 +71,7 @@
 #' \item A next generation's population Pt+1 of size N is selected from the top Pareto Fronts
 #' with help of elitism based selection operator
 #' }
-#' The loop is repeated untill the final generation is reached
+#' The loop is repeated until the final generation is reached
 #'
 #' Each generation is populated by individuals representing different subsets.
 #' Each individual is represented as a binary vector, where each gene represents
@@ -79,9 +81,10 @@
 #' xgb_learner <- mlr::makeLearner("classif.xgboost", predict.type = "prob",
 #'                             par.vals = list(
 #'                             objective = "binary:logistic",
-#'                             eval_metric = "error",nrounds = 10))
+#'                             eval_metric = "error",nrounds = 2))
 #'
 #' rsmp <- mlr::makeResampleDesc("CV", iters = 2)
+#' measures <- list(mlr::mmce, mlr::fnr)
 #'
 #' f_auc <- function(pred){auc <- mlr::performance(pred, auc)
 #'                         return(as.numeric(auc))}
@@ -92,7 +95,7 @@
 #' nsga3fs(df = german_credit, target = "BAD", obj_list = objective,
 #'         obj_names = o_names, pareto = par, pop_size = 1, max_gen = 1,
 #'         model = xgb_learner, resampling = rsmp,
-#'         num_features = TRUE, cpus = 2)
+#'         num_features = TRUE, r_measures = measures, cpus = 2)
 #'
 #'
 #'
@@ -120,6 +123,7 @@ nsga3fs <- function(df, target, obj_list, obj_names,
                     mutation_rate=0.1,
                     threshold = 0.5,
                     feature_cost = FALSE,
+                    r_measures = list(mlr::mmce),
                     cpus=1){
 
 
@@ -236,7 +240,8 @@ nsga3fs <- function(df, target, obj_list, obj_names,
                                   model,
                                   resampling,
                                   num_features,
-                                  feature_cost){
+                                  feature_cost,
+                                  r_measures){
 
 
     #-2nd------------------------------------------------------------------------------------
@@ -248,7 +253,8 @@ nsga3fs <- function(df, target, obj_list, obj_names,
                              model,
                              resampling,
                              num_features,
-                             feature_cost){
+                             feature_cost,
+                             r_measures){
 
 
       select_columns <- function(df, target, ind){
@@ -271,12 +277,9 @@ nsga3fs <- function(df, target, obj_list, obj_names,
       #-3rd------------------------------------------------------------------------------------
 
 
-      perform_prediction <- function(df, target, model, resampling, remove_NA=FALSE){
+      perform_prediction <- function(df, target, model,
+                                     resampling, r_measures){
 
-        if(remove_NA==TRUE){
-          df <- na.omit(df,cols=target)
-        }
-        #ndf <- mlr::normalizeFeatures(df, target = target)
 
         trainTask <- mlr::makeClassifTask(data = df, target = target, positive=1)
 
@@ -285,7 +288,7 @@ nsga3fs <- function(df, target, obj_list, obj_names,
         rdesc <- resampling
 
         pred <- mlr::resample(learner, trainTask, rdesc, show.info = FALSE,
-                              measures = list(mlr::mmce, mlr::fpr, mlr::fnr))
+                              measures = r_measures)
         res <- pred$pred
         return(res)
       }
@@ -293,7 +296,7 @@ nsga3fs <- function(df, target, obj_list, obj_names,
       #evaluate_ind cont.
 
       dat <- select_columns(df, target, ind)
-      res <- perform_prediction(dat, target, model, resampling)
+      res <- perform_prediction(dat, target, model, resampling, r_measures)
 
 
       get_objective_values <- function(a) {
@@ -335,7 +338,8 @@ nsga3fs <- function(df, target, obj_list, obj_names,
                                          model,
                                          resampling,
                                          num_features,
-                                         feature_cost)
+                                         feature_cost,
+                                         r_measures)
 
     evaluated_pop_res <- data.frame()
 
@@ -702,7 +706,7 @@ nsga3fs <- function(df, target, obj_list, obj_names,
 
     result <- list(raw, per_ind, majority_vote, list(ex_time.))
 
-    names(result) <- c("pf_raw", "per_ind", "majority_vote", "time")
+    names(result) <- c("pf_raw", "per_ind", "majority_vote", "runtime")
     return(result)
   }
 
@@ -750,12 +754,14 @@ nsga3fs <- function(df, target, obj_list, obj_names,
                                        model = model,
                                        resampling = resampling,
                                        num_features = num_features,
-                                       feature_cost = feature_cost)
+                                       feature_cost = feature_cost,
+                                       r_measures = r_measures)
   colnames(evaluated_pop)<-obj_names
 
   eval_end <- Sys.time()
   print(paste("- Initial evaluation time: ",
-              as.numeric(difftime(eval_end,eval_start), units="mins"), "min"))
+              format(as.numeric(difftime(eval_end,eval_start),
+                                units="mins"), digits = 3), "min"))
 
   current_generation <- 0
 
@@ -785,7 +791,8 @@ nsga3fs <- function(df, target, obj_list, obj_names,
                                               objectives = obj_list,
                                               model = model,
                                               num_features=num_features,
-                                              feature_cost = feature_cost)
+                                              feature_cost = feature_cost,
+                                              r_measures = r_measures)
     colnames(evaluated_children) <- obj_names
     rownames(evaluated_children) <- (length(pop)+1):(length(pop)+length(children))
 
@@ -807,7 +814,9 @@ nsga3fs <- function(df, target, obj_list, obj_names,
     iter_end <- Sys.time()
 
     print(paste0("- Iteration ", current_generation, "/", max_gen,
-                 "   |   Time: ", as.numeric(difftime(iter_end,iter_start), units="mins"), " min"))
+                 "   |   Time: ",
+                 format(as.numeric(difftime(iter_end,iter_start),
+                                   units="mins"), digits = 3), " min"))
 
   }
 

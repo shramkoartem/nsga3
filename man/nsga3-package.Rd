@@ -4,7 +4,7 @@
 \name{nsga3-package}
 \alias{nsga3}
 \alias{nsga3-package}
-\title{nsga3: An Implementation of Non-Dominated Sorting Genetic Algorithm III for Feature Selection}
+\title{NSGA III for Multi Objective Feature Selection}
 \description{
 This package provides an adaptation of NSGA III for multi objective 
     feature selection tasks. NSGA III is a genetic algorithm that solves multiple 
@@ -13,4 +13,24 @@ This package provides an adaptation of NSGA III for multi objective
     solution space and preserve diversity. See the original paper by K. Deb and 
     H. Jain (2013) for a detailed description.
 }
+\references{
+K. Deb, H. Jain, "An evolutionary many-objective optimization algorithm
+using reference-point-based nondominated sorting approach part I: solving problems
+with box constraints", IEEE Trans. Evol. Comput., vol. 18, no. 4, pp. 577-601, 2014
+}
+\author{
+Artem Shramko <art.shramko at gmail.com>
+}
+\keyword{algorithm,}
+\keyword{feature}
+\keyword{genetic}
 \keyword{internal}
+\keyword{multi}
+\keyword{nsga-iii}
+\keyword{nsga3,}
+\keyword{objective}
+\keyword{omptimisation,}
+\keyword{optimisation,}
+\keyword{preprocessing,}
+\keyword{selection,}
+\keyword{wrapper,}

@@ -6,7 +6,8 @@
 \usage{
 nsga3fs(df, target, obj_list, obj_names, pareto, pop_size, max_gen, model,
   resampling, num_features = TRUE, mutation_rate = 0.1,
-  threshold = 0.5, feature_cost = FALSE, cpus = 1)
+  threshold = 0.5, feature_cost = FALSE,
+  r_measures = list(mlr::mmce), cpus = 1)
 }
 \arguments{
 \item{df}{An original dataset.}
@@ -43,6 +44,9 @@ Default  value 0.5.}
 
 \item{feature_cost}{A vector of feacure costs. Must be equal ncol(df)-1.
 You must pass a respective object to pareto as well as obj_names.}
+
+\item{r_measures}{A list of performance metrics for \code{\link[mlr]{makeResampleDesc}} task.
+Default "mmce"}
 
 \item{cpus}{Number of sockets to be used for parallelisation. Default value is 1.}
 }
@@ -101,6 +105,7 @@ xgb_learner <- mlr::makeLearner("classif.xgboost", predict.type = "prob",
                             eval_metric = "error",nrounds = 10))
 
 rsmp <- mlr::makeResampleDesc("CV", iters = 2)
+measures <- list(mlr::mmce, mlr::fnr)
 
 f_auc <- function(pred){auc <- mlr::performance(pred, auc)
                         return(as.numeric(auc))}
@@ -111,7 +116,7 @@ par <- rPref::high(AUC)*rPref::low(nf)
 nsga3fs(df = german_credit, target = "BAD", obj_list = objective,
         obj_names = o_names, pareto = par, pop_size = 1, max_gen = 1,
         model = xgb_learner, resampling = rsmp,
-        num_features = TRUE, cpus = 2)
+        num_features = TRUE, r_measures = measures, cpus = 2)
 
 
 
