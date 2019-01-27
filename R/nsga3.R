@@ -16,4 +16,5 @@
 #'@import parallelMap
 #'@import rPref
 #'@import stats
+#'@import mlr
 NULL

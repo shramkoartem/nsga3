@@ -6,9 +6,9 @@
 \alias{nsga3-package}
 \title{NSGA III for Multi Objective Feature Selection}
 \description{
-This package provides an adaptation of NSGA III for multi objective 
+An adaptation of NSGA III for multi objective 
     feature selection tasks. NSGA III is a genetic algorithm that solves multiple 
-    optimisation problems simultaneously by applying a non-dominated sorting 
+    optimization problems simultaneously by applying a non-dominated sorting 
     technique. It uses a reference points based selection operator to explore 
     solution space and preserve diversity. See the original paper by K. Deb and 
     H. Jain (2013) for a detailed description.

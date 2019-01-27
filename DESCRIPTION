@@ -17,9 +17,9 @@ LazyData: true
 Imports: 
     mlr,
     parallelMap,
-    rPref
+    rPref,
+    xgboost
 Suggests:
-    xgboost,
     testthat,
     knitr,
     rmarkdown

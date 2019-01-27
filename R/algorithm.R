@@ -84,7 +84,7 @@
 #'                             eval_metric = "error",nrounds = 2))
 #'
 #' rsmp <- mlr::makeResampleDesc("CV", iters = 2)
-#' measures <- list(mlr::mmce, mlr::fnr)
+#' measures <- list(mlr::mmce)
 #'
 #' f_auc <- function(pred){auc <- mlr::performance(pred, auc)
 #'                         return(as.numeric(auc))}

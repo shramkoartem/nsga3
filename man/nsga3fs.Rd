@@ -14,7 +14,7 @@ nsga3fs(df, target, obj_list, obj_names, pareto, pop_size, max_gen, model,
 
 \item{target}{Name of a column (a string), which contains classification target variable.}
 
-\item{obj_list}{A List of objective functions to be optimisied.
+\item{obj_list}{A List of objective functions to be optimizied.
 Must be a list of objects of type closure.}
 
 \item{obj_names}{A Vector of the names of objective functions.
@@ -33,7 +33,7 @@ classification task.}
 
 \item{resampling}{A \code{\link[mlr]{makeResampleDesc}} object.}
 
-\item{num_features}{TRUE if algorithm should minimise number of features as one of objectives.
+\item{num_features}{TRUE if algorithm should minimize number of features as one of objectives.
 You must pass a respective object to pareto as well as obj_names.}
 
 \item{mutation_rate}{Probability of switching the value of a certain gene to its opposite.
@@ -67,7 +67,7 @@ A list with the final Pareto Front:
 \description{
 An adaptation of NSGA III for multi objective feature selection tasks.
 NSGA III is a genetic algorithm that solves multiple
-optimisation problems simultaneously by applying a non-dominated sorting
+optimization problems simultaneously by applying a non-dominated sorting
 technique. It uses a reference points based selection operator to explore
 solution space and preserve diversity. See the paper by K. Deb and
 H. Jain (2013) for a detailed description of the algorithm.
@@ -92,7 +92,7 @@ sorting technique
 \item A next generation's population Pt+1 of size N is selected from the top Pareto Fronts
 with help of elitism based selection operator
 }
-The loop is repeated untill the final generation is reached
+The loop is repeated until the final generation is reached
 
 Each generation is populated by individuals representing different subsets.
 Each individual is represented as a binary vector, where each gene represents
@@ -102,10 +102,10 @@ a feature in the original dataset.
 xgb_learner <- mlr::makeLearner("classif.xgboost", predict.type = "prob",
                             par.vals = list(
                             objective = "binary:logistic",
-                            eval_metric = "error",nrounds = 10))
+                            eval_metric = "error",nrounds = 2))
 
 rsmp <- mlr::makeResampleDesc("CV", iters = 2)
-measures <- list(mlr::mmce, mlr::fnr)
+measures <- list(mlr::mmce)
 
 f_auc <- function(pred){auc <- mlr::performance(pred, auc)
                         return(as.numeric(auc))}
