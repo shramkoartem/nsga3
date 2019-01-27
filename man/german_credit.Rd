@@ -34,7 +34,7 @@
 \source{
 Professor Dr. Hofmann, Hans (1994).
 UCI Machine Learning Repository
-\url{[https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)]}.
+\url{https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)}.
 Hamburg, Germany: Universitaet Hamburg, Institut fuer Statistik und "Oekonometrie.
 }
 \usage{

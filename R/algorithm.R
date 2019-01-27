@@ -1,8 +1,9 @@
 #' NSGA III for Multi-Objective Feature Selection
 #'
 #'@description
-#'An adaptation of NSGA III for multi objective feature selection tasks.
-#'NSGA III is a genetic algorithm that solves multiple
+#'An adaptation of Non-dominated Sorting Genetic Algorithm III for multi
+#'objective feature selection tasks.
+#'Non-dominated Sorting Genetic Algorithm III is a genetic algorithm that solves multiple
 #'optimization problems simultaneously by applying a non-dominated sorting
 #'technique. It uses a reference points based selection operator to explore
 #'solution space and preserve diversity. See the paper by K. Deb and
