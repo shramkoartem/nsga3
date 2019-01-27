@@ -9,7 +9,8 @@ Description: This package provides an adaptation of NSGA III for multi objective
     optimisation problems simultaneously by applying a non-dominated sorting 
     technique. It uses a reference points based selection operator to explore 
     solution space and preserve diversity. See the original paper by K. Deb and 
-    H. Jain (2013) for a detailed description. 
+    H. Jain (2013) for a detailed description.
+Depends: R (>= 2.10.0)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -18,5 +19,9 @@ Imports:
     parallelMap,
     rPref
 Suggests:
-    xgboost
+    xgboost,
+    testthat,
+    knitr,
+    rmarkdown
 RoxygenNote: 6.1.1
+VignetteBuilder: knitr

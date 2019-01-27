@@ -68,6 +68,56 @@ technique. It uses a reference points based selection operator to explore
 solution space and preserve diversity. See the paper by K. Deb and
 H. Jain (2013) for a detailed description of the algorithm.
 }
+\note{
+Be cautious with setting the size of population and maximum generations.
+Since NSGA III is a wrapper feature selection method, a model has to be retrained
+N*number of generation +1 times, which may involve high computational costs.
+A 100 x 100 setting should be enough.
+
+This adaptation of NSGA III algorithm for Multi Objective Feature Selection is currently
+available only for classification tasks.
+
+#'As any other Genetic Algorithm (GA), NSGA III includes following steps:
+\enumerate{
+\item An initial population Pt of a size N is created
+\item A model is trained on each individual (subset) and fitness values are assigned
+\item An offsping population of a size N is created by crossover and mutation operators
+\item The offspring population is combined with its parent population
+\item A combined population of a size 2N is split into Pareto Fronts using non-dominated
+sorting technique
+\item A next generation's population Pt+1 of size N is selected from the top Pareto Fronts
+with help of elitism based selection operator
+}
+The loop is repeated untill the final generation is reached
+
+Each generation is populated by individuals representing different subsets.
+Each individual is represented as a binary vector, where each gene represents
+a feature in the original dataset.
+}
+\examples{
+xgb_learner <- mlr::makeLearner("classif.xgboost", predict.type = "prob",
+                            par.vals = list(
+                            objective = "binary:logistic",
+                            eval_metric = "error",nrounds = 10))
+
+rsmp <- mlr::makeResampleDesc("CV", iters = 2)
+
+f_auc <- function(pred){auc <- mlr::performance(pred, auc)
+                        return(as.numeric(auc))}
+objective <- c(f_auc)
+o_names <- c("AUC", "nf")
+par <- rPref::high(AUC)*rPref::low(nf)
+
+nsga3fs(df = german_credit, target = "BAD", obj_list = objective,
+        obj_names = o_names, pareto = par, pop_size = 1, max_gen = 1,
+        model = xgb_learner, resampling = rsmp,
+        num_features = TRUE, cpus = 2)
+
+
+
+
+
+}
 \references{
 K. Deb, H. Jain, "An evolutionary many-objective optimization algorithm
 using reference-point-based nondominated sorting approach part I: solving problems
