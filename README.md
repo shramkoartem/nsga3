@@ -28,7 +28,7 @@ Each generation is populated by individuals representing different subsets.
 Each individual is represented as a binary vector, where each gene represents a feature in the original dataset.
 
 ## Example
-'''
+'''R
 xgb_learner <- mlr::makeLearner("classif.xgboost", predict.type = "prob",
                              par.vals = list(
                              objective = "binary:logistic",
