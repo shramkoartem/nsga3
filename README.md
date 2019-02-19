@@ -10,7 +10,7 @@ technique. It uses a reference points based selection operator to explore
 solution space and preserve diversity. See the paper by K. Deb and
 H. Jain (2014) <DOI:10.1109/TEVC.2013.2281534> for a detailed description of the algorithm.
 
-
+https://cran.r-project.org/web/packages/nsga3/nsga3.pdf
 
 This adaptation of NSGA III algorithm for Multi Objective Feature Selection is currently
 available only for classification tasks.
