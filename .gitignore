@@ -1,0 +1,9 @@
+inst/doc
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.LICENSE
+cran-comments.md
+.Rbuildignore
+.Rproj
