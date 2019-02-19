@@ -12,6 +12,14 @@ H. Jain (2014) <DOI:10.1109/TEVC.2013.2281534> for a detailed description of the
 
 https://cran.r-project.org/web/packages/nsga3/nsga3.pdf
 
+
+##Update
+This is a 0.0.4 version, which is ahead of the 0.0.3 CRAN version by:
+* added a backup option
+* adjusted classifier output dependency 
+
+##Description
+
 This adaptation of NSGA III algorithm for Multi Objective Feature Selection is currently
 available only for classification tasks.
 
