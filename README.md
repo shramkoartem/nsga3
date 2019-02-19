@@ -1,17 +1,17 @@
 # nsga3
-#' NSGA III for Multi-Objective Feature Selection
-#'
-#'@description
-#'An adaptation of Non-dominated Sorting Genetic Algorithm III for multi
-#'objective feature selection tasks.
-#'Non-dominated Sorting Genetic Algorithm III is a genetic algorithm that solves multiple
-#'optimization problems simultaneously by applying a non-dominated sorting
-#'technique. It uses a reference points based selection operator to explore
-#'solution space and preserve diversity. See the paper by K. Deb and
-#'H. Jain (2014) <DOI:10.1109/TEVC.2013.2281534> for a detailed description of the algorithm.
-#'
-#'
-#'
+## NSGA III for Multi-Objective Feature Selection
+
+
+An adaptation of Non-dominated Sorting Genetic Algorithm III for multi
+objective feature selection tasks.
+Non-dominated Sorting Genetic Algorithm III is a genetic algorithm that solves multiple
+optimization problems simultaneously by applying a non-dominated sorting
+technique. It uses a reference points based selection operator to explore
+solution space and preserve diversity. See the paper by K. Deb and
+H. Jain (2014) <DOI:10.1109/TEVC.2013.2281534> for a detailed description of the algorithm.
+
+
+
 #'@param df An original dataset.
 #'@param target Name of a column (a string), which contains classification target variable.
 #'@param obj_list A List of objective functions to be optimizied.
