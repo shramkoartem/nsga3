@@ -28,12 +28,12 @@ Each generation is populated by individuals representing different subsets.
 Each individual is represented as a binary vector, where each gene represents a feature in the original dataset.
 
 ## Example
-'''R
+```R
 xgb_learner <- mlr::makeLearner("classif.xgboost", predict.type = "prob",
                              par.vals = list(
                              objective = "binary:logistic",
                              eval_metric = "error",nrounds = 2))
-'''
+
 rsmp <- mlr::makeResampleDesc("CV", iters = 2)
 measures <- list(mlr::mmce)
 
@@ -47,4 +47,4 @@ nsga3fs(df = german_credit, target = "BAD", obj_list = objective,
          obj_names = o_names, pareto = par, pop_size = 1, max_gen = 1,
          model = xgb_learner, resampling = rsmp,
          num_features = TRUE, r_measures = measures, cpus = 2)
-'''
+```
