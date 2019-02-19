@@ -4,4 +4,6 @@ inst/doc
 .RData
 .Ruserdata
 .LICENSE
-.cran-comments.md
+cran-comments.md
+.Rbuildignore
+.Rproj
