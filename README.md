@@ -33,7 +33,7 @@ xgb_learner <- mlr::makeLearner("classif.xgboost", predict.type = "prob",
                              par.vals = list(
                              objective = "binary:logistic",
                              eval_metric = "error",nrounds = 2))
-
+'''
 rsmp <- mlr::makeResampleDesc("CV", iters = 2)
 measures <- list(mlr::mmce)
 
