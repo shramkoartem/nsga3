@@ -1,7 +1,7 @@
 Package: nsga3
 Type: Package
 Title: An Implementation of Non-Dominated Sorting Genetic Algorithm III for Feature Selection
-Version: 0.0.1
+Version: 0.0.2
 Author: Artem Shramko
 Maintainer: Artem Shramko <art.shramko@gmail.com>
 Description: An adaptation of Non-dominated Sorting Genetic Algorithm III for multi objective 

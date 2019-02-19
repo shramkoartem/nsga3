@@ -4,9 +4,7 @@
 #'@keywords genetic algorithm, multi objective optimisation, omptimisation, feature selection,
 #'preprocessing, wrapper, nsga3, nsga-iii
 #'
-#'@references K. Deb, H. Jain, "An evolutionary many-objective optimization algorithm
-#'using reference-point-based nondominated sorting approach part I: solving problems
-#'with box constraints", IEEE Trans. Evol. Comput., vol. 18, no. 4, pp. 577-601, 2014
+#'@references K. Deb, H. Jain (2014) <DOI:10.1109/TEVC.2013.2281534>
 #'
 #'
 "_PACKAGE"
@@ -18,3 +16,4 @@
 #'@import stats
 #'@import mlr
 NULL
+

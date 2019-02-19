@@ -11,12 +11,10 @@ An adaptation of Non-dominated Sorting Genetic Algorithm III for multi objective
     that solves multiple optimization problems simultaneously by applying a non-dominated sorting 
     technique. It uses a reference points based selection operator to explore 
     solution space and preserve diversity. See the original paper by K. Deb and 
-    H. Jain (2013) for a detailed description.
+    H. Jain (2014) <DOI:10.1109/TEVC.2013.2281534> for a detailed description.
 }
 \references{
-K. Deb, H. Jain, "An evolutionary many-objective optimization algorithm
-using reference-point-based nondominated sorting approach part I: solving problems
-with box constraints", IEEE Trans. Evol. Comput., vol. 18, no. 4, pp. 577-601, 2014
+K. Deb, H. Jain (2014) <DOI:10.1109/TEVC.2013.2281534>
 }
 \author{
 Artem Shramko <art.shramko at gmail.com>

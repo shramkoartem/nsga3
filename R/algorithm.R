@@ -7,7 +7,7 @@
 #'optimization problems simultaneously by applying a non-dominated sorting
 #'technique. It uses a reference points based selection operator to explore
 #'solution space and preserve diversity. See the paper by K. Deb and
-#'H. Jain (2013) for a detailed description of the algorithm.
+#'H. Jain (2014) <DOI:10.1109/TEVC.2013.2281534> for a detailed description of the algorithm.
 #'
 #'
 #'
@@ -36,6 +36,9 @@
 #'@param r_measures A list of performance metrics for \code{\link[mlr]{makeResampleDesc}} task.
 #'Default "mmce"
 #'@param cpus Number of sockets to be used for parallelisation. Default value is 1.
+#'@param backup Default = FALSE. If TRUE, a backup file will be created and updated by overwriting
+#'itself with each new generation. Usefull to track the progress in computateonally heavy tasks.
+#'
 #'@return A list with the final Pareto Front:
 #'\describe{
 #' \item{Raw}{A list containing two items:
@@ -48,9 +51,7 @@
 #' \item{Majority vote}{Pareto Front majority vote for dataset features}
 #' \item{Stat}{Runtime, dataset details, model}
 #' }
-#'@references K. Deb, H. Jain, "An evolutionary many-objective optimization algorithm
-#'using reference-point-based nondominated sorting approach part I: solving problems
-#'with box constraints", IEEE Trans. Evol. Comput., vol. 18, no. 4, pp. 577-601, 2014
+#'@references K. Deb, H. Jain (2014) <DOI:10.1109/TEVC.2013.2281534>
 #'
 #'@note
 #' Be cautious with setting the size of population and maximum generations.
@@ -87,7 +88,7 @@
 #' rsmp <- mlr::makeResampleDesc("CV", iters = 2)
 #' measures <- list(mlr::mmce)
 #'
-#' f_auc <- function(pred){auc <- mlr::performance(pred, auc)
+#' f_auc <- function(pred){auc <- mlr::performance(pred$pred, auc)
 #'                         return(as.numeric(auc))}
 #' objective <- c(f_auc)
 #' o_names <- c("AUC", "nf")
@@ -119,13 +120,14 @@
 nsga3fs <- function(df, target, obj_list, obj_names,
                     pareto, pop_size, max_gen,
                     model,
-                    resampling,
+                    resampling = FALSE,
                     num_features = TRUE,
                     mutation_rate=0.1,
                     threshold = 0.5,
                     feature_cost = FALSE,
                     r_measures = list(mlr::mmce),
-                    cpus=1){
+                    cpus=1,
+                    backup = FALSE){
 
 
   #INITIAL POPULATION------------------------------------------------------------------
@@ -281,16 +283,15 @@ nsga3fs <- function(df, target, obj_list, obj_names,
       perform_prediction <- function(df, target, model,
                                      resampling, r_measures){
 
-
-        trainTask <- mlr::makeClassifTask(data = df, target = target, positive=1)
-
         learner <- model
-
+        trainTask <- mlr::makeClassifTask(data = df, target = target, positive=1)
         rdesc <- resampling
-
         pred <- mlr::resample(learner, trainTask, rdesc, show.info = FALSE,
                               measures = r_measures)
-        res <- pred$pred
+
+        #need to edit this! now the pred object is returned instead of pred$pred
+
+        res <- pred
         return(res)
       }
       #-3rd------------------------------------------------------------------------------------
@@ -819,19 +820,25 @@ nsga3fs <- function(df, target, obj_list, obj_names,
                  format(as.numeric(difftime(iter_end,iter_start),
                                    units="mins"), digits = 3), " min"))
 
+
+
+    end_time <- Sys.time()
+
+    ex_time <- end_time - start_time
+
+    result <- prep_output(pop. = pop, evaluated_pop. = evaluated_pop,
+                          df. = df, threshold = threshold,
+                          target = target,
+                          obj_names. = obj_names,
+                          pareto = pareto,
+                          num_features = num_features,
+                          ex_time = ex_time)
+
+    if(backup==TRUE){
+      save(result, file = "nsga3.backup.RData")
+    }
+
   }
-
-  end_time <- Sys.time()
-
-  ex_time <- end_time - start_time
-
-  result <- prep_output(pop. = pop, evaluated_pop. = evaluated_pop,
-                        df. = df, threshold = threshold,
-                        target = target,
-                        obj_names. = obj_names,
-                        pareto = pareto,
-                        num_features = num_features,
-                        ex_time = ex_time)
   parallelStop()
 
   return(result)

@@ -5,9 +5,9 @@
 \title{NSGA III for Multi-Objective Feature Selection}
 \usage{
 nsga3fs(df, target, obj_list, obj_names, pareto, pop_size, max_gen, model,
-  resampling, num_features = TRUE, mutation_rate = 0.1,
+  resampling = FALSE, num_features = TRUE, mutation_rate = 0.1,
   threshold = 0.5, feature_cost = FALSE,
-  r_measures = list(mlr::mmce), cpus = 1)
+  r_measures = list(mlr::mmce), cpus = 1, backup = FALSE)
 }
 \arguments{
 \item{df}{An original dataset.}
@@ -49,6 +49,9 @@ You must pass a respective object to pareto as well as obj_names.}
 Default "mmce"}
 
 \item{cpus}{Number of sockets to be used for parallelisation. Default value is 1.}
+
+\item{backup}{Default = FALSE. If TRUE, a backup file will be created and updated by overwriting
+itself with each new generation. Usefull to track the progress in computateonally heavy tasks.}
 }
 \value{
 A list with the final Pareto Front:
@@ -71,7 +74,7 @@ Non-dominated Sorting Genetic Algorithm III is a genetic algorithm that solves m
 optimization problems simultaneously by applying a non-dominated sorting
 technique. It uses a reference points based selection operator to explore
 solution space and preserve diversity. See the paper by K. Deb and
-H. Jain (2013) for a detailed description of the algorithm.
+H. Jain (2014) <DOI:10.1109/TEVC.2013.2281534> for a detailed description of the algorithm.
 }
 \note{
 Be cautious with setting the size of population and maximum generations.
@@ -108,7 +111,7 @@ xgb_learner <- mlr::makeLearner("classif.xgboost", predict.type = "prob",
 rsmp <- mlr::makeResampleDesc("CV", iters = 2)
 measures <- list(mlr::mmce)
 
-f_auc <- function(pred){auc <- mlr::performance(pred, auc)
+f_auc <- function(pred){auc <- mlr::performance(pred$pred, auc)
                         return(as.numeric(auc))}
 objective <- c(f_auc)
 o_names <- c("AUC", "nf")
@@ -125,7 +128,5 @@ nsga3fs(df = german_credit, target = "BAD", obj_list = objective,
 
 }
 \references{
-K. Deb, H. Jain, "An evolutionary many-objective optimization algorithm
-using reference-point-based nondominated sorting approach part I: solving problems
-with box constraints", IEEE Trans. Evol. Comput., vol. 18, no. 4, pp. 577-601, 2014
+K. Deb, H. Jain (2014) <DOI:10.1109/TEVC.2013.2281534>
 }
