@@ -48,3 +48,5 @@ nsga3fs(df = german_credit, target = "BAD", obj_list = objective,
          model = xgb_learner, resampling = rsmp,
          num_features = TRUE, r_measures = measures, cpus = 2)
 ```
+
+keywords: NSGA III, NSGA-III, NSGA 3, nsga 3, nsga iii, nsga-iii
